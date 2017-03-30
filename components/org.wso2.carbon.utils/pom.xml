@@ -22,7 +22,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>org.wso2.carbon.utils</artifactId>
+    <artifactId>carbon-utils</artifactId>
     <name>WSO2 Carbon Kernel - Utils</name>
     <url>http://wso2.com</url>
 

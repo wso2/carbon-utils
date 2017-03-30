@@ -45,7 +45,6 @@ public class FileUtilsTest {
             File tempFile = new File(testSampleDirStructure, "tempFolder" + i);
             tempFile.mkdirs();
         }
-
     }
 
     @Test

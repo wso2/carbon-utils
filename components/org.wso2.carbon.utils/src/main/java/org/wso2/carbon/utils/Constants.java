@@ -37,13 +37,9 @@ public final class Constants {
     public static final String MAVEN_PROJECT_VERSION = "MAVEN_PROJECT_VERSION";
 
     public static final String START_TIME = "carbon.start.time";
-
     public static final String LOGIN_MODULE_ENTRY = "CarbonSecurityConfig";
-
     public static final String DEFAULT_TENANT = "default";
-
     public static final String TENANT_NAME = "tenant.name";
-
     public static final String SERVER_PACKAGE = "org.wso2.carbon";
 
     /**

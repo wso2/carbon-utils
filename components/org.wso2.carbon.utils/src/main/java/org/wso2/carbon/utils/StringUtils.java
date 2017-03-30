@@ -61,6 +61,4 @@ public class StringUtils {
         }
         return Optional.of(str.trim());
     }
-
-
 }

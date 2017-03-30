@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 /**
  * Carbon utility methods.
  *
- * @since 5.0.0
+ * @since 1.0.0
  */
 public class Utils {
     private static final Pattern varPattern = Pattern.compile("\\$\\{([^}]*)}");

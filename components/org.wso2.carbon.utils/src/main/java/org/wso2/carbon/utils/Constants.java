@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Carbon Constants.
  *
- * @since 5.2.0
+ * @since 1.0.0
  */
 public final class Constants {
 

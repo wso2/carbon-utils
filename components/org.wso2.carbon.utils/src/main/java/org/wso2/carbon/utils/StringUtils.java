@@ -22,7 +22,7 @@ import java.util.Optional;
 /**
  * This class contains utility methods for Strings.
  *
- * @since 5.1.0
+ * @since 1.0.0
  */
 public class StringUtils {
 

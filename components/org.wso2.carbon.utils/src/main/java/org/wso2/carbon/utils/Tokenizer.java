@@ -19,7 +19,7 @@ package org.wso2.carbon.utils;
  * Simple tokenizer class. Used to parse data.
  * This class is taken from org.eclipse.osgi.framework.internal.core
  *
- * @since 5.0.0
+ * @since 1.0.0
  */
 public class Tokenizer {
     private char value[];

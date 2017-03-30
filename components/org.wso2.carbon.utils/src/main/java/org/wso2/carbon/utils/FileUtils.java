@@ -26,7 +26,7 @@ import java.nio.file.StandardCopyOption;
 /**
  * File Utilities.
  *
- * @since 5.0.0
+ * @since 1.0.0
  */
 public class FileUtils {
     private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);

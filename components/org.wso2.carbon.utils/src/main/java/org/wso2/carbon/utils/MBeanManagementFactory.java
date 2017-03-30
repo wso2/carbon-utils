@@ -21,7 +21,7 @@ import javax.management.MBeanServerFactory;
 /**
  * The ManagementFactory class is a factory class for getting managed beans for the Java platform.
  *
- * @since 5.1.0
+ * @since 1.0.0
  */
 public class MBeanManagementFactory {
 

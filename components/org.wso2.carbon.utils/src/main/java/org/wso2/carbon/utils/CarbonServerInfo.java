@@ -19,7 +19,7 @@ package org.wso2.carbon.utils;
  * CarbonServerInfo register as an OSGi service when the server startup finalization completed. This can be used to
  * identify the completion of server start up.
  *
- * @since 5.0.0
+ * @since 1.0.0
  */
 public class CarbonServerInfo {
 }

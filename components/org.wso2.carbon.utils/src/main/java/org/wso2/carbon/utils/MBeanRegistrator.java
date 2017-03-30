@@ -32,7 +32,7 @@ import javax.management.ObjectName;
 /**
  * The class which is responsible for registering MBeans.
  *
- * @since 5.1.0
+ * @since 1.0.0
  */
 public class MBeanRegistrator {
     private static final Logger logger = LoggerFactory.getLogger(MBeanRegistrator.class);

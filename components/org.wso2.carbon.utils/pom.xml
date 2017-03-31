@@ -99,7 +99,9 @@
     </build>
 
     <properties>
+        <private.package>org.wso2.carbon.utils.internal</private.package>
         <export.package>
+            !org.wso2.carbon.utils.internal,
             org.wso2.carbon.utils.*; version="${carbon.utils.package.export.version}",
         </export.package>
         <import.package>

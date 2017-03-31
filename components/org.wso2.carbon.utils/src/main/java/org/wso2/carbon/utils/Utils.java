@@ -17,14 +17,19 @@ package org.wso2.carbon.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wso2.carbon.utils.internal.DataHolder;
 
+import java.io.IOException;
 import java.lang.management.ManagementPermission;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Carbon utility methods.
@@ -66,6 +71,58 @@ public class Utils {
             System.setProperty(Constants.CARBON_HOME, carbonHome);
         }
         return Paths.get(carbonHome);
+    }
+
+    /**
+     * Returns the Runtime Home directory path. If {@code runtime.home} system property is not found, gets the
+     * {@code RUNTIME_HOME_ENV} system property value and sets to the runtime home.
+     *
+     * @return the Runtime Home directory path
+     */
+    public static Path getRuntimeHome() {
+        String runtimeHome = System.getProperty(Constants.RUNTIME_HOME);
+        if (runtimeHome == null) {
+            runtimeHome = System.getenv(Constants.RUNTIME_HOME_ENV);
+            System.setProperty(Constants.RUNTIME_HOME, runtimeHome);
+        }
+        return Paths.get(runtimeHome);
+    }
+
+    /**
+     * get the current Runtime name.
+     *
+     * @return the Runtime name
+     */
+    public static String getRuntime() {
+        return System.getProperty(Constants.RUNTIME);
+    }
+
+    /**
+     * Get the runtime home path for a runtime.
+     *
+     * @return Path to runtime home of given runtime.
+     * @throws IOException if there error while reading runtime root.
+     */
+    public static Path getRuntimeHome(String runtimeName) throws IOException {
+        return getAllRuntimes().get(runtimeName);
+    }
+
+    /**
+     * Get all the available runtime names and paths.
+     *
+     * @return Map of runtime names and paths.
+     * @throws IOException if there error while reading runtime root.
+     */
+    public static Map<String, Path> getAllRuntimes() throws IOException {
+        Map<String, Path> runtimes = DataHolder.getInstance().getRuntimes();
+        if (runtimes == null) {
+            runtimes = Files.list(getCarbonHome().resolve(Constants.RUNTIME_ROOT_DIRECTORY_NAME))
+                            .collect(Collectors.toMap(path -> path.toFile().getName(), path -> path));
+            //remove the lib directory
+            runtimes.remove("lib");
+            DataHolder.getInstance().setRuntimes(runtimes);
+        }
+        return runtimes;
     }
 
     /**

@@ -22,7 +22,6 @@ limitations under the License.
         <classes>
             <class name="org.wso2.carbon.utils.FileUtilsTest" />
             <class name="org.wso2.carbon.utils.UtilsTest"/>
-            <class name="org.wso2.carbon.utils.manifest.ManifestElementTest"/>
         </classes>
     </test>
 </suite>

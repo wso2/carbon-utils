@@ -45,11 +45,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wso2.eclipse.osgi</groupId>
-                <artifactId>org.eclipse.osgi</artifactId>
-                <version>${equinox.osgi.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.ops4j.pax.logging</groupId>
                 <artifactId>pax-logging-api</artifactId>
                 <version>${pax.logging.api.version}</version>
@@ -76,7 +71,6 @@
         <jacoco.version>0.7.5.201505241946</jacoco.version>
 
         <carbon.utils.package.export.version>1.0.0</carbon.utils.package.export.version>
-        <osgi.framework.package.import.version.range>[1.8.0, 2.0.0)</osgi.framework.package.import.version.range>
         <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>
         <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)</slf4j.logging.package.import.version.range>
     </properties>

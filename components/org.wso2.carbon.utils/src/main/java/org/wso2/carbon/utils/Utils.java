@@ -69,16 +69,16 @@ public class Utils {
     }
 
     /**
-     * Returns the Runtime Home directory path. If {@code runtime.home} system property is not found, gets the
-     * {@code RUNTIME_HOME_ENV} system property value and sets to the runtime home.
+     * Returns the Runtime Home directory path. If {@code wso2.runtime.path} system property is not found, gets the
+     * {@code RUNTIME_PATH_ENV} system property value and sets to the runtime home.
      *
      * @return the Runtime Home directory path
      */
-    public static Path getRuntimeHome() {
-        String runtimeHome = System.getProperty(Constants.RUNTIME_HOME);
+    public static Path getRuntimePath() {
+        String runtimeHome = System.getProperty(Constants.RUNTIME_PATH);
         if (runtimeHome == null) {
-            runtimeHome = System.getenv(Constants.RUNTIME_HOME_ENV);
-            System.setProperty(Constants.RUNTIME_HOME, runtimeHome);
+            runtimeHome = System.getenv(Constants.RUNTIME_PATH_ENV);
+            System.setProperty(Constants.RUNTIME_PATH, runtimeHome);
         }
         return Paths.get(runtimeHome);
     }

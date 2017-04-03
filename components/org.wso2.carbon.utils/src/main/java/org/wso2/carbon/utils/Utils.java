@@ -69,6 +69,30 @@ public class Utils {
     }
 
     /**
+     * Returns the Runtime Home directory path. If {@code wso2.runtime.path} system property is not found, gets the
+     * {@code RUNTIME_PATH_ENV} system property value and sets to the runtime home.
+     *
+     * @return the Runtime Home directory path
+     */
+    public static Path getRuntimePath() {
+        String runtimeHome = System.getProperty(Constants.RUNTIME_PATH);
+        if (runtimeHome == null) {
+            runtimeHome = System.getenv(Constants.RUNTIME_PATH_ENV);
+            System.setProperty(Constants.RUNTIME_PATH, runtimeHome);
+        }
+        return Paths.get(runtimeHome);
+    }
+
+    /**
+     * get the current Runtime name.
+     *
+     * @return the Runtime name
+     */
+    public static String getRuntimeName() {
+        return System.getProperty(Constants.RUNTIME);
+    }
+
+    /**
      * Replace system property holders in the property values.
      * e.g. Replace ${carbon.home} with value of the carbon.home system property.
      *

@@ -24,6 +24,9 @@ public final class Constants {
 
     public static final String CARBON_HOME = "carbon.home";
     public static final String CARBON_HOME_ENV = "CARBON_HOME";
+    public static final String RUNTIME_PATH = "wso2.runtime.path";
+    public static final String RUNTIME_PATH_ENV = "RUNTIME_PATH";
+    public static final String RUNTIME = "wso2.runtime";
     public static final String CARBON_CONFIG_YAML = "carbon.yaml";
     public static final String DEPLOYMENT_CONFIG_YAML = "deployment.yaml";
 

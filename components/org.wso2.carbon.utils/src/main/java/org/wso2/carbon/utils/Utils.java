@@ -50,7 +50,7 @@ public class Utils {
      * @return returns the Carbon Configuration directory path
      */
     public static Path getCarbonConfigHome() {
-        return Paths.get(getCarbonHome().toString(), "conf");
+        return Paths.get(getCarbonHome().toString(), Constants.CONF_DIR);
     }
 
     /**
@@ -81,6 +81,15 @@ public class Utils {
             System.setProperty(Constants.RUNTIME_PATH, runtimeHome);
         }
         return Paths.get(runtimeHome);
+    }
+
+    /**
+     * Get the conf path of the runtime.
+     *
+     * @return Path to the conf dir of runtime
+     */
+    public static Path getRuntimeConfigPath() {
+        return getRuntimePath().resolve(Constants.CONF_DIR);
     }
 
     /**

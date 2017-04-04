@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.utils</groupId>
     <artifactId>carbon-utils-parent</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon - Utils Parent</name>
     <url>http://wso2.com</url>
@@ -33,7 +33,7 @@
         <url>https://github.com/wso2/carbon-utils.git</url>
         <developerConnection>scm:git:https://github.com/wso2/carbon-utils.git</developerConnection>
         <connection>scm:git:https://github.com/wso2/carbon-utils.git</connection>
-        <tag>v1.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>

@@ -29,6 +29,7 @@ public final class Constants {
     public static final String RUNTIME = "wso2.runtime";
     public static final String CARBON_CONFIG_YAML = "carbon.yaml";
     public static final String DEPLOYMENT_CONFIG_YAML = "deployment.yaml";
+    public static final String CONF_DIR = "conf";
 
     /**
      * Remove default constructor and make it not available to initialize.

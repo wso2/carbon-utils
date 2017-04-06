@@ -31,7 +31,6 @@
     <url>http://wso2.com</url>
     <description>This feature contains the carbon-utils</description>
 
-
     <dependencies>
         <dependency>
             <groupId>org.wso2.carbon.utils</groupId>
@@ -72,5 +71,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

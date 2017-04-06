@@ -14,7 +14,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.wso2</groupId>
         <artifactId>wso2</artifactId>
@@ -67,19 +68,22 @@
         </dependencies>
     </dependencyManagement>
 
-    <properties>
-        <carbon.utils.version>1.2.0-SNAPSHOT</carbon.utils.version>
-        <equinox.osgi.version>3.11.0.v20160603-1336</equinox.osgi.version>
-        <pax.logging.api.version>1.9.0</pax.logging.api.version>
-        <testng.version>6.9.4</testng.version>
-        <jacoco.version>0.7.5.201505241946</jacoco.version>
-
-        <carbon.utils.package.export.version>1.1.0</carbon.utils.package.export.version>
-        <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>
-        <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)</slf4j.logging.package.import.version.range>
-    </properties>
-
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wso2.carbon.maven</groupId>
+                    <artifactId>carbon-feature-plugin</artifactId>
+                    <version>${carbon.feature.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -91,4 +95,18 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <carbon.utils.version>1.2.0-SNAPSHOT</carbon.utils.version>
+        <equinox.osgi.version>3.11.0.v20160603-1336</equinox.osgi.version>
+        <pax.logging.api.version>1.9.0</pax.logging.api.version>
+        <testng.version>6.9.4</testng.version>
+        <jacoco.version>0.7.5.201505241946</jacoco.version>
+
+        <carbon.utils.package.export.version>1.2.0</carbon.utils.package.export.version>
+        <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>
+        <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)</slf4j.logging.package.import.version.range>
+
+        <carbon.feature.plugin.version>3.0.0</carbon.feature.plugin.version>
+    </properties>
 </project>

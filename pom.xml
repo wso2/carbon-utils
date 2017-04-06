@@ -68,7 +68,7 @@
     </dependencyManagement>
 
     <properties>
-        <carbon.utils.version>${project.version}</carbon.utils.version>
+        <carbon.utils.version>1.2.0-SNAPSHOT</carbon.utils.version>
         <equinox.osgi.version>3.11.0.v20160603-1336</equinox.osgi.version>
         <pax.logging.api.version>1.9.0</pax.logging.api.version>
         <testng.version>6.9.4</testng.version>

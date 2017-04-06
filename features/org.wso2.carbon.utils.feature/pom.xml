@@ -27,7 +27,7 @@
 
     <artifactId>org.wso2.carbon.utils.feature</artifactId>
     <packaging>carbon-feature</packaging>
-    <name>WSO2 Carbon Utils - Carbon Utils Feature</name>
+    <name>WSO2 Carbon - Utils Feature</name>
     <url>http://wso2.com</url>
     <description>This feature contains the carbon-utils</description>
 

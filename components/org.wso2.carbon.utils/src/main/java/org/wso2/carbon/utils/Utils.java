@@ -89,7 +89,7 @@ public class Utils {
      * @return Path to the conf dir of runtime
      */
     public static Path getRuntimeConfigPath() {
-        return getRuntimePath().resolve(Constants.CONF_DIR);
+        return Paths.get(getCarbonHome().toString(), Constants.CONF_DIR, getRuntimeName());
     }
 
     /**

@@ -23,7 +23,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.utils</groupId>
-    <artifactId>carbon-utils-parent</artifactId>
+    <artifactId>carbon-utils</artifactId>
     <version>1.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon - Utils Parent</name>
@@ -45,7 +45,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.wso2.carbon.utils</groupId>
-                <artifactId>carbon-utils</artifactId>
+                <artifactId>org.wso2.carbon.utils</artifactId>
                 <version>${carbon.utils.version}</version>
             </dependency>
             <dependency>

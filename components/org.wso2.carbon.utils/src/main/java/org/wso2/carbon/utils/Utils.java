@@ -18,13 +18,19 @@ package org.wso2.carbon.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.management.ManagementPermission;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Carbon utility methods.
@@ -185,5 +191,27 @@ public class Utils {
         if (secMan != null) {
             secMan.checkPermission(new ManagementPermission("control"));
         }
+    }
+
+    /**
+     * Returns a list of WSO2 Carbon Runtime names.
+     *
+     * @return WSO2 Carbon Runtime names
+     * @throws IOException if an I/O error occurs
+     */
+    public static List<String> getCarbonRuntimes() throws IOException {
+        Path carbonRuntimeHome = getCarbonHome().resolve(Constants.PROFILE_REPOSITORY);
+        Path osgiRepoPath = carbonRuntimeHome.resolve(Constants.OSGI_LIB);
+        Stream<Path> runtimes = Files.list(carbonRuntimeHome);
+        List<String> runtimeNames = new ArrayList<>();
+
+        runtimes.parallel()
+                .filter(profile -> !osgiRepoPath.equals(profile))
+                .forEach(profile -> Optional.ofNullable(profile.getFileName())
+                        .ifPresent(name -> runtimeNames.add(name.toString())));
+        if (runtimeNames.size() == 0) {
+            throw new IOException("No runtime found in path " + carbonRuntimeHome);
+        }
+        return runtimeNames;
     }
 }

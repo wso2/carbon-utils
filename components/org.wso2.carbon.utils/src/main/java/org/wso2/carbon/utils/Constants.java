@@ -30,7 +30,8 @@ public final class Constants {
     public static final String CARBON_CONFIG_YAML = "carbon.yaml";
     public static final String DEPLOYMENT_CONFIG_YAML = "deployment.yaml";
     public static final String CONF_DIR = "conf";
-
+    public static final String PROFILE_REPOSITORY = "wso2";
+    public static final String OSGI_LIB = "lib";
     /**
      * Remove default constructor and make it not available to initialize.
      */

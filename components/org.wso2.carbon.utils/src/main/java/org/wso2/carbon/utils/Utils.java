@@ -202,6 +202,9 @@ public class Utils {
     public static List<String> getCarbonRuntimes() throws IOException {
         Path carbonRuntimeHome = getCarbonHome().resolve(Constants.PROFILE_REPOSITORY);
         Path osgiRepoPath = carbonRuntimeHome.resolve(Constants.OSGI_LIB);
+        if (!Files.exists(carbonRuntimeHome)) {
+            throw new IOException("invalid carbon home path " + carbonRuntimeHome.toString());
+        }
         Stream<Path> runtimes = Files.list(carbonRuntimeHome);
         List<String> runtimeNames = new ArrayList<>();
 

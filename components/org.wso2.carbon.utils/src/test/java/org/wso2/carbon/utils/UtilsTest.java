@@ -131,8 +131,6 @@ public class UtilsTest {
         List<String> runtimesList = Utils.getCarbonRuntimes();
     }
 
-
-
     /**
      * Get the path of a provided resource.
      *

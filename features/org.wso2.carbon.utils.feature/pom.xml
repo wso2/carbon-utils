@@ -16,9 +16,9 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>carbon-utils-parent</artifactId>
         <groupId>org.wso2.carbon.utils</groupId>
-        <version>1.2.2-SNAPSHOT</version>
+        <artifactId>carbon-utils</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -32,7 +32,7 @@
     <dependencies>
         <dependency>
             <groupId>org.wso2.carbon.utils</groupId>
-            <artifactId>carbon-utils</artifactId>
+            <artifactId>org.wso2.carbon.utils</artifactId>
         </dependency>
     </dependencies>
 
@@ -59,7 +59,7 @@
                             </adviceFileContents>
                             <bundles>
                                 <bundle>
-                                    <symbolicName>carbon-utils</symbolicName>
+                                    <symbolicName>org.wso2.carbon.utils</symbolicName>
                                     <version>${carbon.utils.version}</version>
                                 </bundle>
                             </bundles>

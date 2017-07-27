@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -208,10 +208,9 @@ public class Utils {
         Stream<Path> runtimes = Files.list(carbonRuntimeHome);
         List<String> runtimeNames = new ArrayList<>();
 
-        runtimes.parallel()
-                .filter(profile -> !osgiRepoPath.equals(profile))
-                .forEach(profile -> Optional.ofNullable(profile.getFileName())
-                        .ifPresent(name -> runtimeNames.add(name.toString())));
+        runtimes.filter(profile -> !osgiRepoPath.equals(profile))
+                .filter(Objects::nonNull)
+                .forEach(profile -> runtimeNames.add(profile.getFileName().toString()));
         if (runtimeNames.size() == 0) {
             throw new IOException("No runtime found in path " + carbonRuntimeHome);
         }

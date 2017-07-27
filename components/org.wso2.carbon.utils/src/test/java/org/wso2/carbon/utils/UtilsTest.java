@@ -19,12 +19,21 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 /**
  * This class tests the functionality of org.wso2.carbon.utils.Utils class.
  *
  * @since 5.0.0
  */
 public class UtilsTest {
+
+    private static final String OS_NAME_KEY = "os.name";
+    private static final String WINDOWS_PARAM = "indow";
 
     @Test
     public void testSubstituteVarsSystemPropertyNotNull() {
@@ -102,5 +111,44 @@ public class UtilsTest {
         String config = "${" + Constants.CARBON_HOME + "}" + pathSeparator + "deployment" + pathSeparator;
         Assert.assertEquals(Utils.substituteVariables(config),
                 carbonHome + pathSeparator + "deployment" + pathSeparator);
+    }
+
+    @Test
+    public void testGetServerRuntimes() throws IOException {
+        Path carbonHomePath = getResourcePath("carbon-home");
+        Assert.assertNotNull(carbonHomePath, "Carbon Home cannot be null");
+        System.setProperty(Constants.CARBON_HOME, carbonHomePath.toString());
+        List<String> runtimesList = Utils.getCarbonRuntimes();
+        Assert.assertEquals(runtimesList.size(), 1);
+        Assert.assertEquals(runtimesList.get(0), "default");
+    }
+
+    @Test(expectedExceptions = IOException.class)
+    public void testGetRuntimesWithInvalidPath() throws IOException {
+        Path carbonHomePath = getResourcePath("carbon-home1");
+        Assert.assertNotNull(carbonHomePath, "Carbon Home cannot be null");
+        System.setProperty(Constants.CARBON_HOME, carbonHomePath.toString());
+        List<String> runtimesList = Utils.getCarbonRuntimes();
+    }
+
+
+
+    /**
+     * Get the path of a provided resource.
+     *
+     * @param resourcePaths path strings to the location of the resource
+     * @return path of the resources
+     */
+    private static Path getResourcePath(String... resourcePaths) {
+        URL resourceURL = UtilsTest.class.getClassLoader().getResource("");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.getPath();
+            if (resourcePath != null) {
+                resourcePath = System.getProperty(OS_NAME_KEY).contains(WINDOWS_PARAM) ?
+                        resourcePath.substring(1) : resourcePath;
+                return Paths.get(resourcePath, resourcePaths);
+            }
+        }
+        return null; // Resource do not exist
     }
 }

@@ -102,7 +102,7 @@
         <testng.version>6.9.4</testng.version>
         <jacoco.version>0.7.5.201505241946</jacoco.version>
 
-        <carbon.utils.package.export.version>1.2.0</carbon.utils.package.export.version>
+        <carbon.utils.package.export.version>${carbon.utils.version}</carbon.utils.package.export.version>
         <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>
         <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)</slf4j.logging.package.import.version.range>
 

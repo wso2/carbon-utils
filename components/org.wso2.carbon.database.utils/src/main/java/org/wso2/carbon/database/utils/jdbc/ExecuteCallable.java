@@ -19,27 +19,12 @@
 package org.wso2.carbon.database.utils.jdbc;
 
 /**
- * The exception thrown when an error happens at the Data Access Layer.
- * Carries the necessary information to the caller to handle the error effectively.
+ * Functional interface of the database utils to call the executions of the transactions.
+ *
+ * @param <T>
  */
-public class DataAccessException extends Exception {
+@FunctionalInterface
+public interface ExecuteCallable<T> {
 
-    public DataAccessException() {
-    }
-
-    public DataAccessException(String message) {
-        super(message);
-    }
-
-    public DataAccessException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public DataAccessException(Throwable cause) {
-        super(cause);
-    }
-
-    public DataAccessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+    T get(Template<T> callable) throws Exception;
 }

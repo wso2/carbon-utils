@@ -25,13 +25,13 @@ import java.sql.SQLException;
  * SQL variable binding.
  * e.g.
  * <code>
- *     "FROM IDP WHERE NAME=?";
- *     this.jdbcTemplate.fetchSingleRecord(GET_ALL_IDP_SQL, (resultSet, rowNumber) -> {
- *     ...
- *     return ..;
- *     },(preparedStatement) -> {
- *          preparedStatement.setString(1, var1);
- *     });
+ * "FROM IDP WHERE NAME=?";
+ * this.jdbcTemplate.fetchSingleRecord(GET_ALL_IDP_SQL, (resultSet, rowNumber) -> {
+ * ...
+ * return ..;
+ * },(preparedStatement) -> {
+ * preparedStatement.setString(1, var1);
+ * });
  * </code>
  */
 @FunctionalInterface

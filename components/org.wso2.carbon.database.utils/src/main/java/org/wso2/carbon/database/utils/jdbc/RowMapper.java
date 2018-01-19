@@ -25,11 +25,11 @@ import java.sql.SQLException;
  * Performs Row mapping from result set to domain object properties.
  * Usage
  * <code>
- *        this.jdbcTemplate.executeQuery(SELECT_SQL, (resultSet, rowNumber) -> {
- *          DomainObject domainObject = new DomainObject();
- *          domainObject.setProperty(resultSet.getString("COLUMN_1"));
- *          return domainObject;
- *        }
+ * this.jdbcTemplate.executeQuery(SELECT_SQL, (resultSet, rowNumber) -> {
+ * DomainObject domainObject = new DomainObject();
+ * domainObject.setProperty(resultSet.getString("COLUMN_1"));
+ * return domainObject;
+ * }
  * </code>
  *
  * @param <T> the type of the domain object.

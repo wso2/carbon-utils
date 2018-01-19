@@ -19,51 +19,26 @@
 package org.wso2.carbon.database.utils.jdbc;
 
 /**
- * Dummy object class to test the JdbcTemple.
+ * This class contains the local thread to keep the Transaction entry which contain the connection and the depth of the
+ * transaction. Can access the Transaction entry by using the getter and setter in this class.
+ * This class is package private.
  */
-public class PurposeDummy {
+class TransactionManager {
 
-    private int id;
-    private String name;
-    private String description;
+    private static ThreadLocal<TransactionEntry> currentThread = ThreadLocal.withInitial(TransactionEntry::new);
 
-    public PurposeDummy() {
+    public static TransactionEntry getTransactionEntry() {
 
+        return currentThread.get();
     }
 
-    public PurposeDummy(String name, String description) {
+    public static void setTransactionEntry(TransactionEntry transactionEnrty) {
 
-        this.name = name;
-        this.description = description;
+        TransactionManager.currentThread.set(transactionEnrty);
     }
 
-    public int getId() {
+    public static void exitTransaction() {
 
-        return id;
-    }
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
-    }
-
-    public String getDescription() {
-
-        return description;
-    }
-
-    public void setDescription(String description) {
-
-        this.description = description;
+        TransactionManager.currentThread.remove();
     }
 }

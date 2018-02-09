@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,36 +14,67 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.wso2.carbon.utils</groupId>
         <artifactId>carbon-utils</artifactId>
+        <groupId>org.wso2.carbon.utils</groupId>
         <version>2.0.5-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>org.wso2.carbon.utils</artifactId>
-    <name>WSO2 Carbon - Utils</name>
-    <url>http://wso2.com</url>
+    <name>WSO2 Carbon - Database Utils</name>
+    <artifactId>org.wso2.carbon.database.utils</artifactId>
     <packaging>bundle</packaging>
+    <url>http://wso2.org</url>
 
     <dependencies>
         <dependency>
-            <groupId>org.ops4j.pax.logging</groupId>
-            <artifactId>pax-logging-api</artifactId>
-            <optional>true</optional>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.agent</artifactId>
             <classifier>runtime</classifier>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database.wso2</groupId>
+            <artifactId>h2-database-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-testng</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!--OSGi-->
+        <dependency>
+            <groupId>org.wso2.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi.services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -90,6 +121,37 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--OSGi-->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${project.artifactId}
+                        </Bundle-SymbolicName>
+                        <Private-Package>
+                            org.wso2.carbon.database.utils.jdbc.internal,
+                        </Private-Package>
+                        <Import-Package>
+                            org.osgi.framework,
+                            org.osgi.service.component,
+                            org.slf4j.*; version="${slf4j.logging.package.import.version.range}",
+                            org.wso2.carbon.utils.*; version="${carbon.core.version.range}",
+                        </Import-Package>
+                        <Export-Package>
+                            !org.wso2.carbon.database.utils.jdbc.internal,
+                            org.wso2.carbon.database.utils.jdbc.*; version="${carbon.utils.package.export.version}",
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
         </plugins>
 
         <resources>
@@ -101,12 +163,7 @@
     </build>
 
     <properties>
-        <export.package>
-            org.wso2.carbon.utils.*; version="${carbon.utils.package.export.version}",
-        </export.package>
-        <import.package>
-            org.slf4j.*;version="${slf4j.logging.package.import.version.range}",
-            javax.management.*;version="${javax.management.import.version.range}"
-        </import.package>
+        <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
     </properties>
+
 </project>

@@ -517,4 +517,33 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         }
         jdbcTemplate.getDriverName();
     }
+
+    @Test
+    public void testGetDatabaseProductName() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
+        assertEquals(jdbcTemplate.getDatabaseProductName(), "H2");
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testGetDatabaseProductNameWithErrorConnection() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(mockedDataSource);
+        when(mockedDataSource.getConnection()).thenThrow(new SQLException());
+        jdbcTemplate.getDatabaseProductName();
+    }
+
+    @Test(dataProvider = "exceptionLevelProvider", expectedExceptions = DataAccessException.class)
+    public void testGetDatabaseProductNameWithException(int exceptionLevel) throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(mockedDataSource);
+        Connection connection = Mockito.spy(basicDataSource.getConnection());
+        when(mockedDataSource.getConnection()).thenReturn(connection);
+        if (exceptionLevel == 1) {
+            when(connection.getMetaData()).thenThrow(new SQLException());
+        } else if (exceptionLevel == 2) {
+            when(connection.getMetaData().getDatabaseProductName()).thenThrow(new SQLException());
+        }
+        jdbcTemplate.getDatabaseProductName();
+    }
 }

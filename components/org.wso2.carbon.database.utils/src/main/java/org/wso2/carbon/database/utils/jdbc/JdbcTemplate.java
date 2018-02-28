@@ -18,7 +18,7 @@
 
 package org.wso2.carbon.database.utils.jdbc;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
@@ -44,7 +44,8 @@ public class JdbcTemplate {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcTemplate.class);
     private static final String ID = "ID";
-    private static String driverName;
+    private String driverName;
+    private String productName;
     private DataSource dataSource;
 
     public JdbcTemplate(DataSource dataSource) {
@@ -341,7 +342,28 @@ public class JdbcTemplate {
             return driverName;
         } catch (SQLException e) {
             throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorMessage(),
-                    JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
+                                          JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
+        }
+    }
+
+    /**
+     * Retrieve database product name from the data source.
+     *
+     * @return database product name from the data source.
+     * @throws DataAccessException if an error occurs while retrieving metadata from data source.
+     */
+    public String getDatabaseProductName() throws DataAccessException {
+
+        if (StringUtils.isNotBlank(productName)) {
+            return productName;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            productName = connection.getMetaData().getDatabaseProductName();
+            return productName;
+        } catch (SQLException e) {
+            throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorMessage(),
+                                          JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
         }
     }
 

@@ -19,7 +19,7 @@
 package org.wso2.carbon.database.utils.jdbc;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.nio.file.Paths;
 import java.sql.Connection;

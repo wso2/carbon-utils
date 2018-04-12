@@ -30,4 +30,10 @@
     <Match>
         <Class name="org.wso2.carbon.database.utils.jdbc.JdbcUtils"/>
     </Match>
+    <Match>
+        <Class name="org.wso2.carbon.database.utils.jdbc.NamedTemplate"/>
+    </Match>
+    <Match>
+        <Class name="org.wso2.carbon.database.utils.jdbc.NamedJdbcTemplate"/>
+    </Match>
 </FindBugsFilter>

@@ -329,6 +329,29 @@ public class JdbcTemplate {
     }
 
     /**
+     * Executes the jdbc batch delete query.
+     *
+     * @param query       The SQL for delete
+     * @param queryFilter Query filter to prepared statement parameter binding.
+     */
+    public <T extends Object> int executeBatchDelete(String query, QueryFilter queryFilter)
+            throws DataAccessException {
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            doInternalBatchUpdate(queryFilter, preparedStatement);
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            logDebug("Error in performing database delete: {} with parameters {}", query, queryFilter);
+            throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_DATABASE_QUERY_PERFORMING_ERROR
+                    .getErrorMessage() + query, e);
+        }
+        return 0;
+    }
+
+    /**
      * @return the driver name of the connection provided by the datasource.
      */
     public String getDriverName() throws DataAccessException {
@@ -342,7 +365,7 @@ public class JdbcTemplate {
             return driverName;
         } catch (SQLException e) {
             throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorMessage(),
-                                          JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
+                    JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
         }
     }
 
@@ -363,7 +386,7 @@ public class JdbcTemplate {
             return productName;
         } catch (SQLException e) {
             throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorMessage(),
-                                          JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
+                    JdbcConstants.ErrorCodes.ERROR_CODE_GET_DB_TYPE.getErrorCode(), e);
         }
     }
 

@@ -230,6 +230,7 @@
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <commons.lang3.version>3.0</commons.lang3.version>
         <commons.lang.version>2.6</commons.lang.version>
+        <commons.lang.version.range>[2.6.0,3.0.0)</commons.lang.version.range>
 
         <carbon.utils.package.export.version>${carbon.utils.version}</carbon.utils.package.export.version>
         <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>

@@ -141,6 +141,7 @@
                             org.osgi.framework,
                             org.osgi.service.component,
                             org.slf4j.*; version="${slf4j.logging.package.import.version.range}",
+                            org.apache.commons.lang.*; version="${commons.lang.version.range}",
                             org.wso2.carbon.utils.*; version="${carbon.core.version.range}",
                         </Import-Package>
                         <Export-Package>

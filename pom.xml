@@ -186,21 +186,26 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <!--OSGi-->
                 <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${maven.scr.plugin.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                    </configuration>
                     <executions>
                         <execution>
-                            <id>generate-scr-scrdescriptor</id>
+                            <id>attach-javadocs</id>
                             <goals>
-                                <goal>scr</goal>
+                                <goal>jar</goal>
                             </goals>
+                            <configuration>
+                                <!--This parameter disables doclint-->
+                                <doclint>none</doclint>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
+
             </plugins>
         </pluginManagement>
 

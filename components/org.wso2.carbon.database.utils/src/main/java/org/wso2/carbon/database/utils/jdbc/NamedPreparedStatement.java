@@ -109,8 +109,8 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public void setLong(String name, long value) throws SQLException {
 
-        if (getIndex(name) > 0) {
-            preparedStatement.setLong(getIndex(name), value);
+        for (int index : getIndexList(name)) {
+            preparedStatement.setLong(index, value);
         }
     }
 
@@ -123,8 +123,8 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public void setInt(String name, int value) throws SQLException {
 
-        if (getIndex(name) > 0) {
-            preparedStatement.setInt(getIndex(name), value);
+        for (int index : getIndexList(name)) {
+            preparedStatement.setInt(index, value);
         }
     }
 
@@ -137,8 +137,8 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public void setString(String name, String value) throws SQLException {
 
-        if (getIndex(name) > 0) {
-            preparedStatement.setString(getIndex(name), value);
+        for (int index : getIndexList(name)) {
+            preparedStatement.setString(index, value);
         }
     }
 
@@ -160,8 +160,8 @@ public class NamedPreparedStatement implements PreparedStatement {
 
     public void setObject(String name, Object value) throws SQLException {
 
-        if (getIndex(name) > 0) {
-            preparedStatement.setObject(getIndex(name), value);
+        for (int index : getIndexList(name)) {
+            preparedStatement.setObject(index, value);
         }
     }
 
@@ -175,14 +175,25 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public void setTimeStamp(String name, Timestamp timestamp, Calendar calendar) throws SQLException {
 
-        if (getIndex(name) > 0) {
-            preparedStatement.setTimestamp(getIndex(name), timestamp, calendar);
+        for (int index : getIndexList(name)) {
+            preparedStatement.setTimestamp(index, timestamp, calendar);
         }
     }
 
     private int getIndex(String name) {
 
         return fields.indexOf(name) + 1;
+    }
+
+    private List<Integer> getIndexList(String name) {
+
+        List<Integer> indexList = new ArrayList<>();
+        for (int index = 0; index < fields.size(); index++) {
+            if (fields.get(index).equals(name)) {
+                indexList.add(index + 1);
+            }
+        }
+        return indexList;
     }
 
     @Override

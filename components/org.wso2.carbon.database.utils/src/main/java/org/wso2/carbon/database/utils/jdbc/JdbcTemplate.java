@@ -57,8 +57,12 @@ public class JdbcTemplate {
     /**
      * Provides the transaction support for the JDBC executions of the template.
      *
-     * @param callable the SQL query execution method call.
-     * @return result set of domain objects of required type.
+     * @param callable The SQL query execution method call.
+     * @param <T> Type of the return object.
+     * @param <E> Type of the Exception.
+     * @return Result set of domain objects of required type.
+     * @throws TransactionException If any exception occurred during the transaction execution process.
+     * @throws E If any exception occurred during the transaction execution process.
      */
     public <T extends Object, E extends Exception> T withTransaction(ExecuteCallable<T> callable) throws
             TransactionException, E {
@@ -87,7 +91,7 @@ public class JdbcTemplate {
             }
             return result;
         } catch (Throwable t) {
-            //We catch any exception and rollback the transaction.
+            // We catch any exception and rollback the transaction.
             logDebug("Could not commit the transaction.", t);
             transactionEntry.decrementTransactionDepth();
             if (transactionEntry.getTransactionDepth() == 0) {
@@ -123,10 +127,12 @@ public class JdbcTemplate {
     /**
      * Executes a query on JDBC and return the result as a list of domain objects.
      *
-     * @param query     the SQL query with the parameter placeholders.
+     * @param query     The SQL query with the parameter placeholders.
      * @param rowMapper Row mapper functional interface.
+     * @param <T> Type of the return object.
      * @return List of domain objects of required type.
      * @see #executeQuery(String, RowMapper, QueryFilter)
+     * @throws DataAccessException If any exception occurred during the query execution process.
      */
     public <T> List<T> executeQuery(String query, RowMapper<T> rowMapper) throws
             DataAccessException {
@@ -137,10 +143,12 @@ public class JdbcTemplate {
     /**
      * Executes a query on JDBC and return the result as a list of domain objects.
      *
-     * @param query       the SQL query with the parameter placeholders.
+     * @param query       The SQL query with the parameter placeholders.
      * @param rowMapper   Row mapper functional interface.
-     * @param queryFilter parameters for the SQL query parameter replacement.
+     * @param queryFilter Parameters for the SQL query parameter replacement.
+     * @param <T> Type of the return object.
      * @return List of domain objects of required type.
+     * @throws DataAccessException If any exception occurred during the query execution process.
      */
     public <T> List<T> executeQuery(String query, RowMapper<T> rowMapper, QueryFilter queryFilter)
             throws DataAccessException {
@@ -174,10 +182,12 @@ public class JdbcTemplate {
     /**
      * Executes a query on JDBC and return the result as a domain object.
      *
-     * @param query       the SQL query with the parameter placeholders.
+     * @param query       The SQL query with the parameter placeholders.
      * @param rowMapper   Row mapper functional interface.
-     * @param queryFilter parameters for the SQL query parameter replacement.
-     * @return domain object of required type.
+     * @param queryFilter Parameters for the SQL query parameter replacement.
+     * @param <T> Type of the return object.
+     * @return Domain object of required type.
+     * @throws DataAccessException If any exception occurred during the fetching query execution process.
      */
     public <T> T fetchSingleRecord(String query, RowMapper<T> rowMapper, QueryFilter queryFilter)
             throws DataAccessException {
@@ -212,7 +222,8 @@ public class JdbcTemplate {
      * Executes the jdbc update query and returns nothing.
      *
      * @param query       SQL query with the parameter placeholders.
-     * @param queryFilter parameters for the SQL query parameter replacement.
+     * @param queryFilter Parameters for the SQL query parameter replacement.
+     * @throws DataAccessException If any exception occurred during the update query execution process.
      */
     public void executeUpdate(String query, QueryFilter queryFilter) throws DataAccessException {
 
@@ -235,8 +246,9 @@ public class JdbcTemplate {
     /**
      * Executes the jdbc update query and returns the result as updated id integer.
      *
-     * @param query the SQL query with the parameter placeholders.
-     * @return the updated id.
+     * @param query The SQL query with the parameter placeholders.
+     * @return The updated id.
+     * @throws DataAccessException If any exception occurred during the query execution process.
      */
     public int executeUpdate(String query) throws DataAccessException {
 
@@ -259,8 +271,11 @@ public class JdbcTemplate {
      *
      * @param query       The SQL for insert/update.
      * @param queryFilter Query filter to prepared statement parameter binding.
-     * @param bean        the Domain object to be inserted/updated.
-     * @param <T>         return type of the object.
+     * @param bean        The Domain object to be inserted/updated.
+     * @param fetchInsertedId The boolean which defines whether the inserted ID needs to be returned or not.
+     * @param <T>         Return type of the object.
+     * @return The inserted result id.
+     * @throws DataAccessException If any exception occurred during the insert query execution process.
      */
     public <T> int executeInsert(String query, QueryFilter queryFilter, T bean, boolean fetchInsertedId)
             throws DataAccessException {
@@ -329,7 +344,10 @@ public class JdbcTemplate {
      *
      * @param query       The SQL for insert/update.
      * @param queryFilter Query filter to prepared statement parameter binding.
-     * @param bean        the Domain object to be inserted/updated.
+     * @param bean        The Domain object to be inserted/updated.
+     * @param <T> Return type of the object.
+     * @return An object.
+     * @throws DataAccessException If any exception occurred during the insert query execution process.
      */
     public <T extends Object> int executeBatchInsert(String query, QueryFilter queryFilter, T bean)
             throws DataAccessException {
@@ -372,7 +390,8 @@ public class JdbcTemplate {
     }
 
     /**
-     * @return the driver name of the connection provided by the datasource.
+     * @return The driver name of the connection provided by the datasource.
+     * @throws DataAccessException If any exception occurred during the get driver name process.
      */
     public String getDriverName() throws DataAccessException {
 

@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * This class is created to have Template which containing the methods for the database transactions.
  *
- * @param <T> defines the input data type.
+ * @param <T> Defines the input data type.
  */
 public class Template<T> {
 
@@ -41,11 +41,15 @@ public class Template<T> {
     private static final String ID = "ID";
 
     /**
+     * Provide the result id of the query execution based on the fetchInsertedId boolean.
+     *
      * @param query           The SQL for insert/update.
      * @param queryFilter     Query filter to prepared statement parameter binding.
-     * @param bean            the Domain object to be inserted/updated.
-     * @param fetchInsertedId the boolean value to get the inserted id.
-     * @param <T>             return type of the object.
+     * @param bean            The Domain object to be inserted/updated.
+     * @param fetchInsertedId The boolean value to get the inserted id.
+     * @param <T>             Return type of the object.
+     * @return The result ID if the fetchInsertedId is enabled.
+     * @throws DataAccessException If any exceptions are occurred during the query execution time.
      */
     public <T> int executeInsert(String query, QueryFilter queryFilter, T bean, boolean fetchInsertedId)
             throws DataAccessException {
@@ -90,7 +94,9 @@ public class Template<T> {
      *
      * @param query       The SQL for insert/update.
      * @param queryFilter Query filter to prepared statement parameter binding.
-     * @param bean        the Domain object to be inserted/updated.
+     * @param bean        The Domain object to be inserted/updated.
+     * @return An integer.
+     * @throws DataAccessException If any exception occurred during the update execution.
      */
     public <T extends Object> int executeBatchInsert(String query, QueryFilter queryFilter, T bean)
             throws DataAccessException {
@@ -109,9 +115,10 @@ public class Template<T> {
     /**
      * Executes a query on JDBC and return the result as a list of domain objects.
      *
-     * @param query     the SQL query with the parameter placeholders.
+     * @param query     The SQL query with the parameter placeholders.
      * @param rowMapper Row mapper functional interface.
      * @return List of domain objects of required type.
+     * @throws DataAccessException If any exception occurred during the query execution process.
      * @see #executeQuery(String, RowMapper, QueryFilter)
      */
     public <T> List<T> executeQuery(String query, RowMapper<T> rowMapper) throws
@@ -123,10 +130,11 @@ public class Template<T> {
     /**
      * Executes a query on JDBC and return the result as a list of domain objects.
      *
-     * @param query       the SQL query with the parameter placeholders.
+     * @param query       The SQL query with the parameter placeholders.
      * @param rowMapper   Row mapper functional interface.
      * @param queryFilter parameters for the SQL query parameter replacement.
      * @return List of domain objects of required type.
+     * @throws DataAccessException If any exception occurred during the query execution process.
      */
     public <T> List<T> executeQuery(String query, RowMapper<T> rowMapper, QueryFilter queryFilter)
             throws DataAccessException {
@@ -157,10 +165,11 @@ public class Template<T> {
     /**
      * Executes a query on JDBC and return the result as a domain object.
      *
-     * @param query       the SQL query with the parameter placeholders.
+     * @param query       The SQL query with the parameter placeholders.
      * @param rowMapper   Row mapper functional interface.
-     * @param queryFilter parameters for the SQL query parameter replacement.
+     * @param queryFilter Parameters for the SQL query parameter replacement.
      * @return domain object of required type.
+     * @throws DataAccessException If any exception occurred during the fetching query execution process.
      */
     public <T> T fetchSingleRecord(String query, RowMapper<T> rowMapper, QueryFilter queryFilter)
             throws DataAccessException {
@@ -195,7 +204,8 @@ public class Template<T> {
      * Executes the jdbc update query and returns nothing.
      *
      * @param query       SQL query with the parameter placeholders.
-     * @param queryFilter parameters for the SQL query parameter replacement.
+     * @param queryFilter Parameters for the SQL query parameter replacement.
+     * @throws DataAccessException If any exception occurred during the update query execution process.
      */
     public void executeUpdate(String query, QueryFilter queryFilter) throws DataAccessException {
 
@@ -215,8 +225,9 @@ public class Template<T> {
     /**
      * Executes the jdbc update query and returns the result as updated id integer.
      *
-     * @param query the SQL query with the parameter placeholders.
+     * @param query The SQL query with the parameter placeholders.
      * @return the updated id.
+     * @throws DataAccessException If any exception occurred during the update query execution process.
      */
     public int executeUpdate(String query) throws DataAccessException {
 

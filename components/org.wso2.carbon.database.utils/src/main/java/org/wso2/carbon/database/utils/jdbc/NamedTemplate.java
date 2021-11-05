@@ -193,12 +193,13 @@ public class NamedTemplate<T> {
     }
 
     /**
-     * Executes the jdbc update query and returns nothing.
+     * Executes the jdbc update query and returns the result as updated id integer.
      *
      * @param query            SQL query with the parameter placeholders.
      * @param namedQueryFilter parameters for the SQL query parameter replacement.
+     * @return the updated id.
      */
-    public void executeUpdate(String query, NamedQueryFilter namedQueryFilter) throws DataAccessException {
+    public int executeUpdate(String query, NamedQueryFilter namedQueryFilter) throws DataAccessException {
 
         Connection connection = TransactionManager.getTransactionEntry().getConnection();
         try {
@@ -206,7 +207,7 @@ public class NamedTemplate<T> {
                 if (namedQueryFilter != null) {
                     namedQueryFilter.filter(namedPreparedStatement);
                 }
-                namedPreparedStatement.executeUpdate();
+                return namedPreparedStatement.executeUpdate();
             }
 
         } catch (SQLException e) {

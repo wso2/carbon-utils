@@ -226,8 +226,8 @@
         <carbon.database.utils.version>2.1.1-SNAPSHOT</carbon.database.utils.version>
         <equinox.osgi.services.version>3.5.100.v20160504-1419</equinox.osgi.services.version>
         <equinox.osgi.version>3.11.0.v20160603-1336</equinox.osgi.version>
-        <pax.logging.api.version>1.9.0</pax.logging.api.version>
-        <slf4j.logging.api.version>1.6.1</slf4j.logging.api.version>
+        <pax.logging.api.version>2.1.0</pax.logging.api.version>
+        <slf4j.logging.api.version>1.7.35</slf4j.logging.api.version>
         <testng.version>6.9.4</testng.version>
         <jacoco.version>0.7.5.201505241946</jacoco.version>
         <orbit.version.h2.engine>1.2.140.wso2v3</orbit.version.h2.engine>

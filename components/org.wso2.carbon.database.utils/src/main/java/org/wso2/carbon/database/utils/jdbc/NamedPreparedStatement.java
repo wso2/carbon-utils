@@ -60,7 +60,30 @@ public class NamedPreparedStatement implements PreparedStatement {
     public NamedPreparedStatement(Connection connection, String sqlQuery, Map<String, Integer> repetition)
             throws SQLException {
 
-        this(connection, sqlQuery, repetition, "ID");
+        int pos;
+        while ((pos = sqlQuery.indexOf(":")) != -1) {
+
+            int end = sqlQuery.substring(pos).indexOf(";");
+            if (end == -1) {
+                throw new SQLException("Cannot find the end of the placeholder.");
+            } else {
+                end += pos;
+            }
+
+            fields.add(sqlQuery.substring(pos + 1, end));
+            StringBuilder builder = new StringBuilder("?");
+
+            if (repetition.get(sqlQuery.substring(pos + 1, end)) != null) {
+                for (int i = 0; i < repetition.get(sqlQuery.substring(pos + 1, end)) - 1; i++) {
+                    builder.append(", ?");
+                }
+            }
+
+            sqlQuery = String.format("%s %s %s", sqlQuery.substring(0, pos), builder.toString(),
+                    sqlQuery.substring(end + 1));
+        }
+
+        preparedStatement = connection.prepareStatement(sqlQuery);
     }
 
     /**

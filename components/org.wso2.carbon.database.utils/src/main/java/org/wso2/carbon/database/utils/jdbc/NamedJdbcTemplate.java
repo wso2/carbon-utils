@@ -43,6 +43,7 @@ import javax.sql.DataSource;
 public class NamedJdbcTemplate {
 
     private static final Logger log = LoggerFactory.getLogger(NamedJdbcTemplate.class);
+    private static final String ID = "ID";
     private String driverName;
     private String productName;
     private DataSource dataSource;
@@ -258,28 +259,48 @@ public class NamedJdbcTemplate {
     /**
      * Executes the jdbc insert/update query.
      *
-     * @param query            The SQL for insert/update.
-     * @param namedQueryFilter Query filter to named prepared statement parameter binding.
-     * @param bean             the Domain object to be inserted/updated.
-     * @param <T>              return type of the object.
+     * @param query             The SQL for insert/update.
+     * @param namedQueryFilter  Query filter to prepared statement parameter binding.
+     * @param bean              the Domain object to be inserted/updated.
+     * @param fetchInsertedId   Fetch inserted ID.
+     * @param <T>               return type of the object.
      */
     public <T> int executeInsert(String query, NamedQueryFilter namedQueryFilter, T bean, boolean fetchInsertedId)
             throws DataAccessException {
 
-        try (Connection connection = dataSource.getConnection();
-             NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query)) {
+        return executeInsert(query, namedQueryFilter, bean, fetchInsertedId, ID);
+    }
+
+    /**
+     * Executes the jdbc insert/update query.
+     *
+     * @param query                     The SQL for insert/update.
+     * @param namedQueryFilter          Query filter to named prepared statement parameter binding.
+     * @param bean                      the Domain object to be inserted/updated.
+     * @param fetchInsertedId           Fetch inserted ID.
+     * @param autoGenerateIdColumnName  Name of auto generate ID column.
+     * @param <T>                       return type of the object.
+     */
+    public <T> int executeInsert(String query, NamedQueryFilter namedQueryFilter, T bean, boolean fetchInsertedId,
+                                 String autoGenerateIdColumnName)
+            throws DataAccessException {
+
+        try (Connection connection = dataSource.getConnection()) {
             int resultId;
             if (fetchInsertedId) {
-                doInternalUpdate(namedQueryFilter, namedPreparedStatement);
-                logDebug("Mapping generated key (Auto Increment ID) to the object");
-                try (ResultSet generatedKeys = namedPreparedStatement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        resultId = generatedKeys.getInt(1);
-                        logDebug("Newly inserted ID (Auto Increment ID) is {} for the bean {} ", resultId,
-                                bean);
-                    } else {
-                        throw new SQLException(JdbcConstants.ErrorCodes.ERROR_CODE_AUTO_GENERATED_ID_FAILURE.
-                                getErrorMessage());
+                try (NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query,
+                        autoGenerateIdColumnName)) {
+                    doInternalUpdate(namedQueryFilter, namedPreparedStatement);
+                    logDebug("Mapping generated key (Auto Increment ID) to the object");
+                    try (ResultSet generatedKeys = namedPreparedStatement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            resultId = generatedKeys.getInt(1);
+                            logDebug("Newly inserted ID (Auto Increment ID) is {} for the bean {} ", resultId,
+                                    bean);
+                        } else {
+                            throw new SQLException(JdbcConstants.ErrorCodes.ERROR_CODE_AUTO_GENERATED_ID_FAILURE.
+                                    getErrorMessage());
+                        }
                     }
                 }
                 if (!connection.getAutoCommit()) {
@@ -287,7 +308,9 @@ public class NamedJdbcTemplate {
                 }
                 return resultId;
             } else {
-                doInternalUpdate(namedQueryFilter, namedPreparedStatement);
+                try (NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query)) {
+                    doInternalUpdate(namedQueryFilter, namedPreparedStatement);
+                }
                 if (!connection.getAutoCommit()) {
                     connection.commit();
                 }

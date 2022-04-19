@@ -15,6 +15,7 @@
  */
 package org.wso2.carbon.database.utils.jdbc;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -44,10 +45,11 @@ import java.util.Map;
 /**
  * Prepared statement with named indexes.
  */
+@SuppressFBWarnings(value = "SQL_INJECTION_JDBC")
 public class NamedPreparedStatement implements PreparedStatement {
 
-    private PreparedStatement preparedStatement;
-    private List<String> fields = new ArrayList<>();
+    private final PreparedStatement preparedStatement;
+    private final List<String> fields = new ArrayList<>();
 
     /**
      * Create a named prepared statement with repeated indexes.
@@ -72,7 +74,7 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public NamedPreparedStatement(Connection connection, String sqlQuery) throws SQLException {
 
-        this(connection, sqlQuery, new HashMap<String, Integer>());
+        this(connection, sqlQuery, new HashMap<>());
     }
 
     /**
@@ -86,7 +88,7 @@ public class NamedPreparedStatement implements PreparedStatement {
     public NamedPreparedStatement(Connection connection, String sqlQuery, String returningColumnName)
             throws SQLException {
 
-        this(connection, sqlQuery, new HashMap<String, Integer>(), returningColumnName);
+        this(connection, sqlQuery, new HashMap<>(), returningColumnName);
     }
 
     /**

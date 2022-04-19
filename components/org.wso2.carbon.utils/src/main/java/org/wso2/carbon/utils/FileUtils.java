@@ -15,6 +15,7 @@
  */
 package org.wso2.carbon.utils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,8 @@ public class FileUtils {
      * @param dir The directory to be deleted
      * @return true if the directory and its descendents were deleted
      */
+    //TODO validate the file path is inside the carbon home
+    @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN")
     public static boolean deleteDir(File dir) {
         if (dir.isDirectory()) {
             String[] children = dir.list();
@@ -69,6 +72,9 @@ public class FileUtils {
      * @throws java.io.IOException If an Exception occurs while copying
      */
     //TODO This method is not used, remove this
+    @SuppressFBWarnings(
+            value = "CRLF_INJECTION_LOGS",
+            justification = "System generated message.")
     public static void copyFile(File source, File destination) throws IOException {
         if (!source.exists()) {
             throw new IOException("Source file does not exist: " + source);
@@ -91,6 +97,9 @@ public class FileUtils {
      * @param destination The destination directory to which the file has to be copied
      * @throws java.io.IOException If an error occurs while copying
      */
+    @SuppressFBWarnings(
+            value = "CRLF_INJECTION_LOGS",
+            justification = "System generated message.")
     public static void copyFileToDir(File source, File destination) throws IOException {
 
         if (!source.exists()) {

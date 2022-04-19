@@ -15,6 +15,7 @@
  */
 package org.wso2.carbon.utils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +56,9 @@ public class Utils {
      *
      * @return returns the Carbon Configuration directory path
      */
+    @SuppressFBWarnings(
+            value = "PATH_TRAVERSAL_IN",
+            justification = "File path is based on system properties and constants")
     public static Path getCarbonConfigHome() {
         return Paths.get(getCarbonHome().toString(), Constants.CONF_DIR);
     }
@@ -94,6 +98,9 @@ public class Utils {
      *
      * @return Path to the conf dir of runtime
      */
+    @SuppressFBWarnings(
+            value = "PATH_TRAVERSAL_IN",
+            justification = "File path is based on system properties and constants")
     public static Path getRuntimeConfigPath() {
         return Paths.get(getCarbonHome().toString(), Constants.CONF_DIR, getRuntimeName());
     }
@@ -114,6 +121,9 @@ public class Utils {
      * @param value string value to substitute
      * @return String substituted string
      */
+    @SuppressFBWarnings(
+            value = "CRLF_INJECTION_LOGS",
+            justification = "System generated message with system property.")
     public static String substituteVariables(String value) {
         Matcher matcher = varPattern.matcher(value);
         boolean found = matcher.find();

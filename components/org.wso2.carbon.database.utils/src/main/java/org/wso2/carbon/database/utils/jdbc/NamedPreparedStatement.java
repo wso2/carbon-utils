@@ -202,8 +202,8 @@ public class NamedPreparedStatement implements PreparedStatement {
         return indexList;
     }
 
-    private PreparedStatement constructPreparedStatement(Connection connection, String sqlQuery, Map<String, Integer> repetition,
-                                                         String returningColumnName)
+    private PreparedStatement constructPreparedStatement(Connection connection, String sqlQuery,
+                                                         Map<String, Integer> repetition, String returningColumnName)
             throws SQLException {
 
         int pos;

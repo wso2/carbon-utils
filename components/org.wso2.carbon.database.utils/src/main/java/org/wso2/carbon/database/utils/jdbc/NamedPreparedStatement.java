@@ -62,7 +62,7 @@ public class NamedPreparedStatement implements PreparedStatement {
     public NamedPreparedStatement(Connection connection, String sqlQuery, Map<String, Integer> repetition)
             throws SQLException {
 
-        preparedStatement = prepareSqlQuery(connection, sqlQuery, repetition, null);
+        preparedStatement = constructPreparedStatement(connection, sqlQuery, repetition, null);
     }
 
     /**
@@ -103,7 +103,7 @@ public class NamedPreparedStatement implements PreparedStatement {
     public NamedPreparedStatement(Connection connection, String sqlQuery, Map<String, Integer> repetition,
                                   String returningColumnName) throws SQLException {
 
-        preparedStatement = prepareSqlQuery(connection, sqlQuery, repetition, returningColumnName);
+        preparedStatement = constructPreparedStatement(connection, sqlQuery, repetition, returningColumnName);
     }
 
     /**
@@ -202,8 +202,8 @@ public class NamedPreparedStatement implements PreparedStatement {
         return indexList;
     }
 
-    private PreparedStatement prepareSqlQuery(Connection connection, String sqlQuery, Map<String, Integer> repetition,
-                                   String returningColumnName)
+    private PreparedStatement constructPreparedStatement(Connection connection, String sqlQuery, Map<String, Integer> repetition,
+                                                         String returningColumnName)
             throws SQLException {
 
         int pos;

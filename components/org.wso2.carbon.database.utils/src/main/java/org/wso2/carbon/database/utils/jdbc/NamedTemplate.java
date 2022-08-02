@@ -39,6 +39,8 @@ public class NamedTemplate<T> {
 
     private static final Logger log = LoggerFactory.getLogger(NamedTemplate.class);
 
+    private static final String ID = "ID";
+
     /**
      * @param query            The SQL for insert/update.
      * @param namedQueryFilter Query filter to named prepared statement parameter binding.
@@ -53,7 +55,8 @@ public class NamedTemplate<T> {
         int resultId;
         try {
             if (fetchInsertedId) {
-                try (NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query)) {
+                try (NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query,
+                        ID)) {
                     doInternalUpdate(namedQueryFilter, namedPreparedStatement);
                     logDebug("Mapping generated key (Auto Increment ID) to the object");
                     try (ResultSet generatedKeys = namedPreparedStatement.getGeneratedKeys()) {

@@ -291,11 +291,11 @@ public class NamedJdbcTemplate {
                 try (NamedPreparedStatement namedPreparedStatement = new NamedPreparedStatement(connection, query,
                         autoGenerateIdColumnName)) {
                     doInternalUpdate(namedQueryFilter, namedPreparedStatement);
-                    logDebug("Mapping generated key (Auto Increment ID) to the object");
+                    logDebug("Mapping generated key (Auto Increment ID) to the object.");
                     try (ResultSet generatedKeys = namedPreparedStatement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             resultId = generatedKeys.getInt(1);
-                            logDebug("Newly inserted ID (Auto Increment ID) is {} for the bean {} ", resultId,
+                            logDebug("Newly inserted ID (Auto Increment ID) is {} for the bean {}.", resultId,
                                     bean);
                         } else {
                             throw new SQLException(JdbcConstants.ErrorCodes.ERROR_CODE_AUTO_GENERATED_ID_FAILURE.

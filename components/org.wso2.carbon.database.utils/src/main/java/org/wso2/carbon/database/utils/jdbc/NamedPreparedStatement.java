@@ -200,6 +200,20 @@ public class NamedPreparedStatement implements PreparedStatement {
         }
     }
 
+    /**
+     * Set unicode <code>String</code> value for the named index.
+     *
+     * @param name  Name of the index.
+     * @param value Value to be replaced.
+     * @throws SQLException SQL Exception
+     */
+    public void setNString(String name, String value) throws SQLException {
+
+        for (int index : getIndexList(name)) {
+            preparedStatement.setNString(index, value);
+        }
+    }
+
     private int getIndex(String name) {
 
         return fields.indexOf(name) + 1;

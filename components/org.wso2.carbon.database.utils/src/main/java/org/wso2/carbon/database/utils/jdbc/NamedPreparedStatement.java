@@ -186,20 +186,6 @@ public class NamedPreparedStatement implements PreparedStatement {
         }
     }
 
-    /**
-     * Set <code>boolean</code> value for the named index.
-     *
-     * @param name  Name of the index.
-     * @param value Value to be replaced.
-     * @throws SQLException SQL Exception.
-     */
-    public void setBoolean(String name, boolean value) throws SQLException {
-
-        for (int index : getIndexList(name)) {
-            preparedStatement.setBoolean(index, value);
-        }
-    }
-
     private int getIndex(String name) {
 
         return fields.indexOf(name) + 1;

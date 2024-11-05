@@ -220,7 +220,12 @@ public class Utils {
 
         runtimes.filter(profile -> !osgiRepoPath.equals(profile))
                 .filter(Objects::nonNull)
-                .forEach(profile -> runtimeNames.add(profile.getFileName().toString()));
+                .forEach(profile -> {
+                    Path fileName = profile.getFileName();
+                    if (fileName != null) {
+                        runtimeNames.add(fileName.toString());
+                    }
+                });
         if (runtimeNames.size() == 0) {
             throw new IOException("No runtime found in path " + carbonRuntimeHome);
         }

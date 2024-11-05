@@ -388,7 +388,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         PreparedStatement prepStat = Mockito.spy(connection.prepareStatement(INSERT_QUERY));
         connection.setAutoCommit(false);
         when(mockedDataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(anyString(), new String[]{anyString()})).thenReturn(prepStat);
+        when(connection.prepareStatement(anyString(), Mockito.any(String[].class))).thenReturn(prepStat);
         when(prepStat.getGeneratedKeys()).thenReturn(mockedRes);
 
         PurposeDummy purpose = new PurposeDummy("Test Name 001", "Test Description 001");

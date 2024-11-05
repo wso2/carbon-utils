@@ -18,7 +18,7 @@
     <parent>
         <artifactId>carbon-utils</artifactId>
         <groupId>org.wso2.carbon.utils</groupId>
-        <version>2.1.8-SNAPSHOT</version>
+        <version>2.2.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
+            <artifactId>powermock-api-mockito2</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -75,8 +75,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -88,6 +88,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <inherited>false</inherited>
                 <configuration>
+                    <argLine>
+                        --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
+                        --add-opens=java.base/jdk.internal.loader=ALL-UNNAMED
+                    </argLine>
                     <environmentVariables>
                         <testEnvironmentVariable>EnvironmentVariable</testEnvironmentVariable>
                     </environmentVariables>
@@ -163,7 +167,7 @@
     </build>
 
     <properties>
-        <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
+        <maven.spotbugsplugin.exclude.file>findbugs-exclude.xml</maven.spotbugsplugin.exclude.file>
     </properties>
 
 </project>

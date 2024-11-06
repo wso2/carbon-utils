@@ -47,12 +47,12 @@
             <dependency>
                 <groupId>org.wso2.carbon.utils</groupId>
                 <artifactId>org.wso2.carbon.utils</artifactId>
-                <version>${carbon.utils.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.utils</groupId>
                 <artifactId>org.wso2.carbon.database.utils</artifactId>
-                <version>${carbon.database.utils.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.ops4j.pax.logging</groupId>
@@ -228,8 +228,6 @@
     </build>
 
     <properties>
-        <carbon.utils.version>2.1.8-SNAPSHOT</carbon.utils.version>
-        <carbon.database.utils.version>2.1.8-SNAPSHOT</carbon.database.utils.version>
         <equinox.osgi.services.version>3.5.100.v20160504-1419</equinox.osgi.services.version>
         <equinox.osgi.version>3.11.0.v20160603-1336</equinox.osgi.version>
         <pax.logging.api.version>2.1.0</pax.logging.api.version>
@@ -243,7 +241,7 @@
         <commons.lang.version>2.6</commons.lang.version>
         <commons.lang.version.range>[2.6.0,3.0.0)</commons.lang.version.range>
 
-        <carbon.utils.package.export.version>${carbon.utils.version}</carbon.utils.package.export.version>
+        <carbon.utils.package.export.version>${project.version}</carbon.utils.package.export.version>
         <javax.management.import.version.range>[0.0.0,1.0.0)</javax.management.import.version.range>
         <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)</slf4j.logging.package.import.version.range>
         <carbon.core.version.range>[4.4.0, 5.0.0)</carbon.core.version.range>

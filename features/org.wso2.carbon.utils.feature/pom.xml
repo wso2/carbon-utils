@@ -60,7 +60,7 @@
                             <bundles>
                                 <bundle>
                                     <symbolicName>org.wso2.carbon.utils</symbolicName>
-                                    <version>${carbon.utils.version}</version>
+                                    <version>${project.version}</version>
                                 </bundle>
                             </bundles>
                         </configuration>

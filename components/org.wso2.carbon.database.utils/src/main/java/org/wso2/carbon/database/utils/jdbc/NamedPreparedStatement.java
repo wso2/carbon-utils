@@ -214,6 +214,20 @@ public class NamedPreparedStatement implements PreparedStatement {
         }
     }
 
+    /**
+     * Sets the designated parameter to the given input stream, which will have the specified number of bytes.
+     *
+     * @param name          Name of the index.
+     * @param inputStream   The java input stream which contains the binary parameter value.
+     * @param length        The number of bytes in the stream.
+     * @throws SQLException If name does not correspond to a parameter marker in the SQL statement; if a database access
+     *                      error occurs or this method is called on a closed {@code PreparedStatement}.
+     */
+    public void setBinaryStream(String name, InputStream inputStream, long length) throws SQLException {
+
+        preparedStatement.setBinaryStream(getIndex(name), inputStream, length);
+    }
+
     private int getIndex(String name) {
 
         return fields.indexOf(name) + 1;

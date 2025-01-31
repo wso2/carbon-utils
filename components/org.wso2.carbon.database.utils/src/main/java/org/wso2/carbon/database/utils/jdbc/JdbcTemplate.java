@@ -216,7 +216,7 @@ public class JdbcTemplate {
      */
     public void executeUpdate(String query, QueryFilter queryFilter) throws DataAccessException {
 
-        executeUpdateInternal(query, queryFilter, false);
+        executeUpdateInternal(query, queryFilter);
     }
 
     /**
@@ -228,10 +228,10 @@ public class JdbcTemplate {
      */
     public int executeUpdateWithAffectedRows(String query, QueryFilter queryFilter) throws DataAccessException {
 
-        return executeUpdateInternal(query, queryFilter, true);
+        return executeUpdateInternal(query, queryFilter);
     }
 
-    private int executeUpdateInternal(String query, QueryFilter queryFilter, boolean returnAffectedRows)
+    private int executeUpdateInternal(String query, QueryFilter queryFilter)
             throws DataAccessException {
 
         try (Connection connection = dataSource.getConnection();
@@ -243,7 +243,7 @@ public class JdbcTemplate {
             if (!connection.getAutoCommit()) {
                 connection.commit();
             }
-            return returnAffectedRows ? result : 0;
+            return result;
         } catch (SQLException e) {
             logDebug("Error in performing database update: {} with parameters {}", query, queryFilter);
             throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_DATABASE_QUERY_PERFORMING_ERROR

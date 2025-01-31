@@ -199,12 +199,29 @@ public class Template<T> {
      */
     public void executeUpdate(String query, QueryFilter queryFilter) throws DataAccessException {
 
+        executeUpdateInternal(query, queryFilter);
+    }
+
+    /**
+     * Executes the jdbc update query and returns number of affected rows.
+     *
+     * @param query       SQL query with the parameter placeholders.
+     * @param queryFilter parameters for the SQL query parameter replacement.
+     * @return number of rows affected.
+     */
+    public int executeUpdateWithAffectedRows(String query, QueryFilter queryFilter) throws DataAccessException {
+
+        return executeUpdateInternal(query, queryFilter);
+    }
+
+    private int executeUpdateInternal(String query, QueryFilter queryFilter) throws DataAccessException {
+
         Connection connection = TransactionManager.getTransactionEntry().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             if (queryFilter != null) {
                 queryFilter.filter(preparedStatement);
             }
-            preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logDebug("Error in performing database update: {} with parameters {}", query, queryFilter);
             throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_DATABASE_QUERY_PERFORMING_ERROR

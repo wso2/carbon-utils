@@ -489,4 +489,19 @@ public class JdbcTemplateTransactionTest extends PowerMockTestCase {
             return null;
         });
     }
+
+    @Test(priority = 26, dependsOnMethods = "testExecuteBatchInsert")
+    public void testExecuteUpdateWithAffectedRows() throws Exception {
+
+        JdbcTemplate transactionTemplate = new JdbcTemplate(dataSource);
+        transactionTemplate.withTransaction((template) -> {
+            int numberOfAffectedRows = template.executeUpdateWithAffectedRows(UPDATE_QUERY_WITH_FILTER,
+                    preparedStatement -> {
+                        preparedStatement.setString(1, "updated description 001");
+                        preparedStatement.setString(2, "testName1");
+                    });
+            assertNotEquals(numberOfAffectedRows, 0);
+            return null;
+        });
+    }
 }

@@ -368,6 +368,29 @@ public class JdbcTemplate {
     }
 
     /**
+     * Executes the jdbc batch update query and returns the results.
+     *
+     * @param query       The SQL for update
+     * @param queryFilter Query filter to prepared statement parameter binding.
+     * @return the results of the batch update.
+     */
+    public int[] executeBatchUpdateWithResults(String query, QueryFilter queryFilter) throws DataAccessException {
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            int[] results = doInternalBatchUpdateAndReturnResults(queryFilter, preparedStatement);
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+            return results;
+        } catch (SQLException e) {
+            logDebug("Error in performing database update: {} with parameters {}", query, queryFilter);
+            throw new DataAccessException(JdbcConstants.ErrorCodes.ERROR_CODE_DATABASE_QUERY_PERFORMING_ERROR
+                    .getErrorMessage() + query, e);
+        }
+    }
+
+    /**
      * Executes the jdbc batch delete query.
      *
      * @param query       The SQL for delete
@@ -436,6 +459,15 @@ public class JdbcTemplate {
             queryFilter.filter(preparedStatement);
         }
         return preparedStatement.executeUpdate();
+    }
+
+    private int[] doInternalBatchUpdateAndReturnResults(QueryFilter queryFilter, PreparedStatement
+            preparedStatement) throws SQLException {
+
+        if (queryFilter != null) {
+            queryFilter.filter(preparedStatement);
+        }
+        return preparedStatement.executeBatch();
     }
 
     private <T extends Object> void doInternalBatchUpdate(QueryFilter queryFilter, PreparedStatement

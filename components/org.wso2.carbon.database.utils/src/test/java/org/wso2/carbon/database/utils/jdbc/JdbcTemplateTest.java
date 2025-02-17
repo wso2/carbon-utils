@@ -482,6 +482,87 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         }, "testBean");
     }
 
+    @Test
+    public void testExecuteBatchUpdateWithResults() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
+        HashMap<String, String> testMap = new HashMap<>();
+        testMap.put("testName1", "testDes1");
+        testMap.put("testName2", "testDes2");
+        testMap.put("testName3", "testDes3");
+
+        int[] results = jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, preparedStatement -> {
+            for (Map.Entry<String, String> entry : testMap.entrySet()) {
+                preparedStatement.setString(1, entry.getKey());
+                preparedStatement.setString(2, entry.getValue());
+                preparedStatement.addBatch();
+            }
+        });
+        assertEquals(results.length, 3);
+        for (int result : results) {
+            assertEquals(result, 1);
+        }
+    }
+
+    @Test
+    public void testExecuteBatchUpdateWithResultsWithAutoCommitFalse() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(mockedDataSource);
+        Connection connection = Mockito.spy(basicDataSource.getConnection());
+        connection.setAutoCommit(false);
+        when(mockedDataSource.getConnection()).thenReturn(connection);
+
+        HashMap<String, String> testMap = new HashMap<>();
+        testMap.put("testName1", "testDes1");
+        testMap.put("testName2", "testDes2");
+        testMap.put("testName3", "testDes3");
+
+        int[] results = jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, preparedStatement -> {
+            for (Map.Entry<String, String> entry : testMap.entrySet()) {
+                preparedStatement.setString(1, entry.getKey());
+                preparedStatement.setString(2, entry.getValue());
+                preparedStatement.addBatch();
+            }
+        });
+        assertEquals(results.length, 3);
+        for (int result : results) {
+            assertEquals(result, 1);
+        }
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testExecuteBatchUpdateWithResultsWithErrorQuery() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
+        int[] results = jdbcTemplate.executeBatchUpdateWithResults(ERROR_QUERY, null);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testExecuteBatchUpdateWithResultsWithErrorConnection() throws Exception {
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(mockedDataSource);
+        when(mockedDataSource.getConnection()).thenThrow(new SQLException());
+        HashMap<String, String> testMap = new HashMap<>();
+        testMap.put("testName1", "testDes1");
+        jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, null);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testExecuteBatchUpdateWithResultsWithDoInternalError() throws Exception {
+
+        HashMap<Integer, String> testMap = new HashMap<>();
+        testMap.put(1, "testDes1");
+        testMap.put(2, "testDes2");
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
+        jdbcTemplate.executeBatchUpdateWithResults(INSERT_WITH_EXEC_ERROR_QUERY, preparedStatement -> {
+            for (Map.Entry<Integer, String> entry : testMap.entrySet()) {
+                preparedStatement.setInt(1, entry.getKey());
+                preparedStatement.setString(2, entry.getValue());
+            }
+        });
+    }
+
     @Test(priority = 2)
     public void testGetDriverName() throws Exception {
 

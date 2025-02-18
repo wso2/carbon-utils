@@ -374,11 +374,11 @@ public class JdbcTemplate {
      * @param queryFilter Query filter to prepared statement parameter binding.
      * @return the results of the batch update.
      */
-    public int[] executeBatchUpdateWithResults(String query, QueryFilter queryFilter) throws DataAccessException {
+    public int[] executeBatchUpdateWithAffectedRows(String query, QueryFilter queryFilter) throws DataAccessException {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            int[] results = doInternalBatchUpdateAndReturnResults(queryFilter, preparedStatement);
+            int[] results = doInternalBatchUpdateWithAffectedRows(queryFilter, preparedStatement);
             if (!connection.getAutoCommit()) {
                 connection.commit();
             }
@@ -461,7 +461,7 @@ public class JdbcTemplate {
         return preparedStatement.executeUpdate();
     }
 
-    private int[] doInternalBatchUpdateAndReturnResults(QueryFilter queryFilter, PreparedStatement
+    private int[] doInternalBatchUpdateWithAffectedRows(QueryFilter queryFilter, PreparedStatement
             preparedStatement) throws SQLException {
 
         if (queryFilter != null) {

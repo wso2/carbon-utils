@@ -491,7 +491,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         testMap.put("testName2", "testDes2");
         testMap.put("testName3", "testDes3");
 
-        int[] results = jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, preparedStatement -> {
+        int[] results = jdbcTemplate.executeBatchUpdateWithAffectedRows(INSERT_QUERY, preparedStatement -> {
             for (Map.Entry<String, String> entry : testMap.entrySet()) {
                 preparedStatement.setString(1, entry.getKey());
                 preparedStatement.setString(2, entry.getValue());
@@ -517,7 +517,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         testMap.put("testName2", "testDes2");
         testMap.put("testName3", "testDes3");
 
-        int[] results = jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, preparedStatement -> {
+        int[] results = jdbcTemplate.executeBatchUpdateWithAffectedRows(INSERT_QUERY, preparedStatement -> {
             for (Map.Entry<String, String> entry : testMap.entrySet()) {
                 preparedStatement.setString(1, entry.getKey());
                 preparedStatement.setString(2, entry.getValue());
@@ -534,7 +534,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
     public void testExecuteBatchUpdateWithResultsWithErrorQuery() throws Exception {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
-        int[] results = jdbcTemplate.executeBatchUpdateWithResults(ERROR_QUERY, null);
+        int[] results = jdbcTemplate.executeBatchUpdateWithAffectedRows(ERROR_QUERY, null);
     }
 
     @Test(expectedExceptions = DataAccessException.class)
@@ -544,7 +544,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         when(mockedDataSource.getConnection()).thenThrow(new SQLException());
         HashMap<String, String> testMap = new HashMap<>();
         testMap.put("testName1", "testDes1");
-        jdbcTemplate.executeBatchUpdateWithResults(INSERT_QUERY, null);
+        jdbcTemplate.executeBatchUpdateWithAffectedRows(INSERT_QUERY, null);
     }
 
     @Test(expectedExceptions = DataAccessException.class)
@@ -555,7 +555,7 @@ public class JdbcTemplateTest extends PowerMockTestCase {
         testMap.put(2, "testDes2");
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
-        jdbcTemplate.executeBatchUpdateWithResults(INSERT_WITH_EXEC_ERROR_QUERY, preparedStatement -> {
+        jdbcTemplate.executeBatchUpdateWithAffectedRows(INSERT_WITH_EXEC_ERROR_QUERY, preparedStatement -> {
             for (Map.Entry<Integer, String> entry : testMap.entrySet()) {
                 preparedStatement.setInt(1, entry.getKey());
                 preparedStatement.setString(2, entry.getValue());

@@ -229,7 +229,7 @@ public class NamedPreparedStatement implements PreparedStatement {
     }
 
     /**
-     * Sets the designated parameter to the given null.
+     * Sets the designated parameter to SQL NULL
      *
      * @param name          Name of the index.
      * @param sqlType       The SQL type code defined in {@code java.sql.Types}.
@@ -238,9 +238,7 @@ public class NamedPreparedStatement implements PreparedStatement {
      */
     public void setNull(String name, int sqlType) throws SQLException {
 
-        for (int index : getIndexList(name)) {
-            preparedStatement.setNull(index, sqlType);
-        }
+        preparedStatement.setNull(getIndex(name), sqlType);
     }
 
     private int getIndex(String name) {

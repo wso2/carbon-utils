@@ -228,6 +228,21 @@ public class NamedPreparedStatement implements PreparedStatement {
         preparedStatement.setBinaryStream(getIndex(name), inputStream, length);
     }
 
+    /**
+     * Sets the designated parameter to the given null.
+     *
+     * @param name          Name of the index.
+     * @param sqlType       The SQL type code defined in {@code java.sql.Types}.
+     * @throws SQLException If name does not correspond to a parameter marker in the SQL statement; if a database access
+     *                      error occurs or this method is called on a closed {@code PreparedStatement}.
+     */
+    public void setNull(String name, int sqlType) throws SQLException {
+
+        for (int index : getIndexList(name)) {
+            preparedStatement.setNull(index, sqlType);
+        }
+    }
+
     private int getIndex(String name) {
 
         return fields.indexOf(name) + 1;

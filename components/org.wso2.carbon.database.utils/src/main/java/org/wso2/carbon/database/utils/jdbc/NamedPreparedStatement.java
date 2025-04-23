@@ -229,6 +229,21 @@ public class NamedPreparedStatement implements PreparedStatement {
     }
 
     /**
+     * Sets the designated parameter to the given array of bytes.
+     *
+     * @param name          Name of the index.
+     * @param value         The byte array containing the parameter value.
+     * @throws SQLException If name does not correspond to a parameter marker in the SQL statement; if a database access
+     *                      error occurs or this method is called on a closed {@code PreparedStatement}.
+     */
+    public void setBytes(String name, byte[] value) throws SQLException {
+
+        for (int index : getIndexList(name)) {
+            preparedStatement.setBytes(index, value);
+        }
+    }
+
+    /**
      * Sets the designated parameter to SQL NULL
      *
      * @param name          Name of the index.
